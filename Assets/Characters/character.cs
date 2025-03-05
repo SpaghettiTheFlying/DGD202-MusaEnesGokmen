@@ -7,22 +7,25 @@ public class PlayerCharacter : MonoBehaviour
     public float speed;
     public float rotationSpeed;
 
+    private CharacterController characterController;
+
     private Animator animator;
     void Start()
     {
+        characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
+        float magnitude = Mathf.Clamp01(movementDirection.magnitude) * speed;
         movementDirection.Normalize();
 
-        transform.Translate(movementDirection * speed * Time.deltaTime, Space.World);
+        characterController.SimpleMove(movementDirection * magnitude);
 
         if (movementDirection != Vector3.zero)
         {
@@ -35,6 +38,9 @@ public class PlayerCharacter : MonoBehaviour
         {
             animator.SetBool("isRunning", false);
         }
+
+
+
 
     }
 }
