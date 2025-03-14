@@ -12,9 +12,9 @@ public class Projectile : MonoBehaviour
         damage = attackDamage;
     }
 
-    private void Update()
+    void Update()
     {
-        if (target != null)
+        if (target == null)
         {
             Destroy(gameObject);
             return;
